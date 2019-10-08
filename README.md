@@ -22,6 +22,12 @@ So that I can save a website
 I would like to add the site's title to bookmark manager
 ```
 
+### User story 4
+```
+As a user
+So I can remove my bookmark from Bookmark Manager
+I want to delete a bookmark
+```
 
 ##  Setting-up the database
 Connect to psql and create the database using the psql command CREATE DATABASE bookmark_manager;
