@@ -6,7 +6,7 @@ class BookmarkManager < Sinatra::Base
   enable :method_override
 
   get '/' do
-    "Hello world"
+    redirect '/bookmarks'
   end
 
   get '/bookmarks' do
