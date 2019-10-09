@@ -3,7 +3,6 @@ require 'capybara/rspec'
 require 'rspec'
 require 'simplecov'
 require 'simplecov-console'
-
 require_relative './setup_test_database'
 
 ENV['ENVIRONMENT'] = 'test'
@@ -22,7 +21,7 @@ RSpec.configure do |config|
   end
 end
 
-SimpleCov.formatter = SimpleCov.formatter = SimpleCov::Formatter::Console
+SimpleCov.formatter = SimpleCov::Formatter::Console
 SimpleCov.start
 
 # require our Sinatra app file
