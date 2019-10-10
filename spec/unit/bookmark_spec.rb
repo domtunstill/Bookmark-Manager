@@ -1,12 +1,7 @@
 require 'bookmark'
-require_relative 'database_helpers'
+require 'database_helpers'
 
 describe Bookmark do
-
-  # before(:each) do
-  #   db = PG.connect(dbname: 'bookmark_manager_test')
-  #   # Add the test data
-  # end
 
   describe ".all" do
     it 'returns a list of bookmarks' do
