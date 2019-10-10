@@ -1,10 +1,14 @@
+<p>
+  <%= flash[:notice] %>
+</p>
+
 <h1>Bookmarks</h1>
 
 <br>
 <ul>
 <% @list.each do |bookmark| %>
-  <li class="bookmark">
-    <a style="float: left; padding: 2.5px;" href="<%= bookmark.url %>" target="_blank"><%= bookmark.title %> </a>
+  <li class="bookmark" style= "display: inline-block;">
+    <a style="float: left; padding: 2.5px; color: black;" href="<%= bookmark.url %>" target="_blank"><%= bookmark.title %> </a>
     <form style="float: left; padding: 2.5px;" action="bookmarks/<%= bookmark.id %>/update" method="get">
       <input type="submit" value="Edit" />
     </form>
@@ -17,8 +21,6 @@
 <% end %>
 </ul>
 
-<br>
-
-<form style="float: left; margin-left: 2%;" action="bookmarks/new" method="get">
+<form style="float: left; margin-left: 3%;" action="bookmarks/new" method="get">
     <input type="submit" value="New" />
 </form>

@@ -1,10 +1,16 @@
+# frozen_string_literal: true
+
 require 'sinatra/base'
 require './lib/bookmark'
 require './database_connection_setup.rb'
+require 'sinatra/flash'
+
+# class
 
 class BookmarkManager < Sinatra::Base
   # ... app code here ...
-  enable :method_override
+  enable :method_override, :sessions
+  register Sinatra::Flash
 
   get '/' do
     redirect '/bookmarks'
@@ -20,7 +26,7 @@ class BookmarkManager < Sinatra::Base
   end
 
   post '/bookmarks/create' do
-    Bookmark.create(url: params[:url], title: params[:title])
+    flash[:notice] = "Invalid URL" unless Bookmark.create(url: params[:url], title: params[:title])
     redirect '/bookmarks'
   end
 
@@ -34,12 +40,12 @@ class BookmarkManager < Sinatra::Base
     erb :'bookmarks/update'
   end
 
-  patch '/bookmarks/:id' do
-    Bookmark.update(id: params['id'], title: params['title'], url: params['url'])
+  patch '/bookmarks/:id/update' do
+    Bookmark.update id: params['id'], title: params['title'], url: params['url']
     redirect '/bookmarks'
   end
 
   # start the server if ruby file executed directly
-  run! if app_file == $0
+  run! if app_file == $PROGRAM_NAME
 
 end

@@ -22,7 +22,9 @@ RSpec.configure do |config|
 end
 
 SimpleCov.formatter = SimpleCov::Formatter::Console
-SimpleCov.start
+SimpleCov.start do
+  add_filter "database_connection_setup.rb"
+end
 
 # require our Sinatra app file
 require File.join(File.dirname(__FILE__), '..', 'app.rb')

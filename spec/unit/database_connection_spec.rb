@@ -4,8 +4,8 @@ describe DatabaseConnection do
 
   describe '.setup' do
     it 'it connects to the database and saves the connection as an instance variable' do
+      expect(PG).to receive(:connect).with(dbname: 'bookmark_manager_test')
       DatabaseConnection.setup(dbname: 'bookmark_manager_test')
-      expect(DatabaseConnection.instance).not_to be nil
     end
   end
 
