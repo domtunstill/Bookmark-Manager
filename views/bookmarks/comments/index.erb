@@ -1,0 +1,25 @@
+<p><%= flash[:notice] %></p>
+<h1>Comments</h1>
+<h2><%=@bookmark.title%></h2>
+<br>
+
+<ol>
+<% @comments.each do |comment| %>
+  <li class="comment" style= "display: inline-block;">
+    <p style="float: left; padding: 2.5px; color: black;"> <%= comment.contents %> hello </p>
+    <form style="float: left; padding: 2.5px;" action="bookmarks/<%= @bookmark.id  %>/comments/<%= comment.id %>" method="get">
+      <input type="submit" value="Edit" />
+    </form>
+    <form style="float: left; padding: 2.5px;" action="bookmarks/<%= @bookmark.id  %>/comments/<%= comment.id %>/delete" method="post">
+      <input type='hidden' name='_method' value='DELETE'/>
+      <input type="submit" value="Delete" />
+    </form>
+  </li>
+<br>
+<% end %>
+</ol>
+
+<form action="/bookmarks/<%= @bookmark.id %>/comments" method="post">
+    <input type="text" name="comment" placeholder="Add comment">
+    <input type="submit" value="Add" />
+</form>

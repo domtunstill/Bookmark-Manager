@@ -2,6 +2,7 @@
 
 require 'sinatra/base'
 require './lib/bookmark'
+require './lib/comment'
 require './database_connection_setup.rb'
 require 'sinatra/flash'
 
@@ -17,7 +18,7 @@ class BookmarkManager < Sinatra::Base
   end
 
   get '/bookmarks' do
-    @list = Bookmark.all
+    @bookmark_list = Bookmark.all
     erb :'bookmarks/index'
   end
 
@@ -26,7 +27,12 @@ class BookmarkManager < Sinatra::Base
   end
 
   post '/bookmarks/create' do
-    flash[:notice] = "Invalid URL" unless Bookmark.create(url: params[:url], title: params[:title])
+    bookmark = Bookmark.create(url: params[:url], title: params[:title])
+    if bookmark != false && params[:comment] != ""
+      Comment.create(bookmark_id: bookmark.id, contents: params[:comment])
+    elsif bookmark == false
+      flash[:notice] = "Invalid URL"
+    end
     redirect '/bookmarks'
   end
 
@@ -44,6 +50,22 @@ class BookmarkManager < Sinatra::Base
     Bookmark.update id: params['id'], title: params['title'], url: params['url']
     redirect '/bookmarks'
   end
+
+  get '/bookmarks/:id/comments' do
+    @bookmark = Bookmark.find(id: params['id'])
+    @comments = Comment.where(bookmark_id: params['id'])
+    erb :'bookmarks/comments/index'
+  end
+
+  post '/bookmarks/:id/comments' do
+    @comments = Comment.create(bookmark_id: params['id'], contents: params['comment'])
+    redirect "/bookmarks/#{params['id']}/comments"
+  end
+
+  # delete '/bookmarks/:id/comments/:comment_id' do
+  #   @comments = Comment.create(bookmark_id: params['id'], contents: params['comment'])
+  #   redirect "/bookmarks/#{params['id']}/comments"
+  # end
 
   # start the server if ruby file executed directly
   run! if app_file == $PROGRAM_NAME

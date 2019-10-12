@@ -1,3 +1,5 @@
+require_relative 'comment'
+
 class Bookmark
 
   attr_reader :id, :title, :url
@@ -16,6 +18,7 @@ class Bookmark
   end
 
   def self.delete(id:)
+    DatabaseConnection.query("DELETE FROM comments WHERE bookmark_id = #{id}")
     DatabaseConnection.query("DELETE FROM bookmarks WHERE id = #{id}")
   end
 
@@ -27,6 +30,14 @@ class Bookmark
   def self.find(id:)
     result = DatabaseConnection.query("SELECT * FROM bookmarks WHERE id = #{id}")[0]
     Bookmark.new(id: result['id'], url: result['url'], title: result['title'])
+  end
+
+  def comments
+    Comment.where(bookmark_id: @id)
+  end
+
+  def add_comment(comment)
+    Comment.create(bookmark_id: @id, contents: comment)
   end
 
   def initialize(id:, title:, url:)
